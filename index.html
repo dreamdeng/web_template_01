@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{GAME_NAME}}: {{GAME_TAGLINE}}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{GAME_NAME}} - {{GAME_DESCRIPTION_SHORT}}. {{GAME_CALL_TO_ACTION}}">
+    <meta name="keywords" content="{{GAME_NAME}}, {{GAME_GENRE}}, {{GAME_KEYWORDS}}, online game, web game, {{GAME_THEME_KEYWORDS}}">
+    <meta name="author" content="{{DEVELOPER_NAME}}">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="{{GAME_NAME}}: {{GAME_TAGLINE}}">
+    <meta property="og:description" content="{{GAME_DESCRIPTION_SHORT}}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://{{DOMAIN_NAME}}/">
+    <meta property="og:image" content="https://{{DOMAIN_NAME}}/{{GAME_IMAGE}}">
+    <meta property="og:site_name" content="{{GAME_NAME}}">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{GAME_NAME}}: {{GAME_TAGLINE}}">
+    <meta name="twitter:description" content="{{GAME_DESCRIPTION_SHORT}}">
+    <meta name="twitter:image" content="https://{{DOMAIN_NAME}}/{{GAME_IMAGE}}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="{{THEME_COLOR}}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, {{PRIMARY_COLOR}}, {{SECONDARY_COLOR}});
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, {{ACCENT_COLOR}}, {{ACCENT_COLOR_LIGHT}});
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .game-embed {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-frame {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .game-disclaimer {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .content-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .content-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            color: {{ACCENT_COLOR_LIGHT}};
+        }
+
+        .content-section h3 {
+            font-size: 1.6em;
+            margin: 25px 0 15px;
+            color: {{ACCENT_COLOR}};
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h4 {
+            color: {{ACCENT_COLOR}};
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .video-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .video-embed {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+        }
+
+        .faq-section {
+            margin: 60px 0;
+        }
+
+        .faq-item {
+            background: rgba(255,255,255,0.05);
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-links {
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: {{ACCENT_COLOR_LIGHT}};
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.2em;
+            }
+
+            .content-section {
+                padding: 25px;
+                margin: 40px 0;
+            }
+
+            .game-frame {
+                height: 400px;
+            }
+
+            .video-embed iframe {
+                height: 250px;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, transparent 0%, {{ACCENT_COLOR}}22 50%, transparent 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .game-name {
+            color: {{ACCENT_COLOR_LIGHT}};
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{GAME_NAME}}: {{GAME_TAGLINE}}</h1>
+            <p class="subtitle">{{GAME_DESCRIPTION_LONG}}</p>
+            <a href="#play" class="cta-button">Play {{GAME_NAME}} Now</a>
+            <a href="{{OFFICIAL_GAME_URL}}" class="cta-button" target="_blank">{{OFFICIAL_LINK_TEXT}}</a>
+        </header>
+
+        <section class="game-embed" id="play">
+            <h2>Play <span class="game-name">{{GAME_NAME}}</span> Online</h2>
+            <iframe src="{{GAME_EMBED_URL}}" class="game-frame" allowfullscreen></iframe>
+            <p class="game-disclaimer">{{GAME_DISCLAIMER_TEXT}}</p>
+        </section>
+
+        <section class="content-section">
+            <h2>About <span class="game-name">{{GAME_NAME}}</span></h2>
+            <p>{{GAME_ABOUT_PARAGRAPH_1}}</p>
+            <p>{{GAME_ABOUT_PARAGRAPH_2}}</p>
+
+            <h3>{{GAME_MECHANICS_TITLE}}</h3>
+            <p>{{GAME_MECHANICS_DESCRIPTION}}</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>{{FEATURE_1_TITLE}}</h4>
+                    <p>{{FEATURE_1_DESCRIPTION}}</p>
+                </div>
+                <div class="feature-card">
+                    <h4>{{FEATURE_2_TITLE}}</h4>
+                    <p>{{FEATURE_2_DESCRIPTION}}</p>
+                </div>
+                <div class="feature-card">
+                    <h4>{{FEATURE_3_TITLE}}</h4>
+                    <p>{{FEATURE_3_DESCRIPTION}}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>{{GAMEPLAY_SECTION_TITLE}}</h2>
+            <p>{{GAMEPLAY_DESCRIPTION_1}}</p>
+            <p>{{GAMEPLAY_DESCRIPTION_2}}</p>
+
+            <h3>{{ENDINGS_TITLE}}</h3>
+            <p>{{ENDINGS_DESCRIPTION}}</p>
+
+            <h3>{{STRATEGY_TITLE}}</h3>
+            <p>{{STRATEGY_DESCRIPTION}}</p>
+        </section>
+
+        <section class="video-section">
+            <h2>{{VIDEO_SECTION_TITLE}}</h2>
+            <div class="video-embed">
+                <iframe src="{{YOUTUBE_EMBED_URL}}" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section class="content-section faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">{{FAQ_1_QUESTION}}</div>
+                <div class="faq-answer">{{FAQ_1_ANSWER}}</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">{{FAQ_2_QUESTION}}</div>
+                <div class="faq-answer">{{FAQ_2_ANSWER}}</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">{{FAQ_3_QUESTION}}</div>
+                <div class="faq-answer">{{FAQ_3_ANSWER}}</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">{{FAQ_4_QUESTION}}</div>
+                <div class="faq-answer">{{FAQ_4_ANSWER}}</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">{{FAQ_5_QUESTION}}</div>
+                <div class="faq-answer">{{FAQ_5_ANSWER}}</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; {{CURRENT_YEAR}} <span class="game-name">{{GAME_NAME}}</span>. {{FOOTER_COPYRIGHT_TEXT}}</p>
+            <div class="footer-links">
+                <a href="{{OFFICIAL_GAME_URL}}" target="_blank">{{OFFICIAL_LINK_TEXT}}</a>
+                <a href="{{DEVELOPER_URL}}" target="_blank">{{DEVELOPER_NAME}}</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+            </div>
+            <p>{{FOOTER_DISCLAIMER}}</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const allAnswers = document.querySelectorAll('.faq-answer');
+
+            // Close all other FAQ answers
+            allAnswers.forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Toggle current answer
+            answer.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation for game iframe
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameFrame = document.querySelector('.game-frame');
+            if (gameFrame) {
+                gameFrame.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

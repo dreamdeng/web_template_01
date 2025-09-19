@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Prevent crawling of admin/private areas if any
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.well-known/
+
+# Allow all crawlers to access game content
+Allow: /
+
+# Sitemap location
+Sitemap: https://{{DOMAIN_NAME}}/sitemap.xml
+
+# Crawl delay (optional - adjust based on server capacity)
+Crawl-delay: 1
+
+# Host directive (helps with canonical domain)
+Host: https://{{DOMAIN_NAME}}
