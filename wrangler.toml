@@ -1,0 +1,27 @@
+# Cloudflare Pages 配置文件
+name = "flamydash-iframe-game"
+compatibility_date = "2023-12-01"
+
+[build]
+command = "npm run build:cloudflare"
+destination = "out"
+root_dir = "."
+
+[env.production]
+[env.production.vars]
+DOMAIN = "flamydash.com"
+
+[env.preview]
+[env.preview.vars]
+DOMAIN = "preview.flamydash.com"
+
+# 环境变量 (如果需要)
+# GOOGLE_ANALYTICS_ID = "G-SE24TQQ4NY"
+
+# 自定义错误页面 (可选)
+# [[redirects]]
+# from = "/404"
+# to = "/index.html"
+# status = 404
+
+# 缓存配置 (通过 _headers 文件处理)

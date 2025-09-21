@@ -7,7 +7,9 @@
     "start": "node server/app.js",
     "dev": "nodemon server/app.js",
     "demo": "node start-demo.js",
-    "build": "echo 'No build process needed for this project'",
+    "build": "node build-static.js",
+    "build:static": "node build-static.js",
+    "build:cloudflare": "DOMAIN=${DOMAIN:-flamydash.com} node build-static.js",
     "test": "node test-integration.js",
     "test:manual": "echo 'Manual testing: Open http://localhost:3000 in browser'",
     "health": "curl -f http://localhost:3000/api/health || echo 'Server not running'"
