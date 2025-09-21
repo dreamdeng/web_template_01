@@ -10,10 +10,10 @@ Disallow: /.well-known/
 Allow: /
 
 # Sitemap location
-Sitemap: https://{{DOMAIN_NAME}}/sitemap.xml
+Sitemap: https://flamydash.com/sitemap.xml
 
 # Crawl delay (optional - adjust based on server capacity)
 Crawl-delay: 1
 
 # Host directive (helps with canonical domain)
-Host: https://{{DOMAIN_NAME}}
+Host: https://flamydash.com

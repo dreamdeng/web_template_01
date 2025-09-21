@@ -1,0 +1,37 @@
+{
+  "games": {
+    "flamy-dash": {
+      "id": "flamy-dash",
+      "name": "Flamy Dash",
+      "description": "Master the flames of precision in this challenging one-button arcade game",
+      "image": "https://flamydash.com/flamy-dash.png",
+      "version": "1.0.0",
+      "iframe_url": "https://flamydash.com/games/flamy-dash/latest/",
+      "width": 960,
+      "height": 600,
+      "enable_fullscreen": "yes",
+      "enable_sound": "yes",
+      "controls": {
+        "type": "mouse",
+        "instructions": "Click and hold to use grappling hook, release to let go"
+      },
+      "category": "arcade",
+      "tags": ["one-button", "precision", "grappling-hook", "endless"],
+      "rating": "4.5",
+      "unlock_timer": 15,
+      "redirect_url": "https://flamydash.com/"
+    }
+  },
+  "ads_config": {
+    "enable": "no",
+    "ads_debug": "yes",
+    "time_show_inter": 60,
+    "time_show_reward": 60,
+    "sdk_type": "iframe"
+  },
+  "default_settings": {
+    "allow_play": "yes",
+    "rtype": "1",
+    "iframe_sandbox": "allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "flamydash-iframe-integration",
+  "version": "1.0.0",
+  "description": "Complete iframe game integration system for Flamy Dash",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js",
+    "demo": "node start-demo.js",
+    "build": "echo 'No build process needed for this project'",
+    "test": "node test-integration.js",
+    "test:manual": "echo 'Manual testing: Open http://localhost:3000 in browser'",
+    "health": "curl -f http://localhost:3000/api/health || echo 'Server not running'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "express-rate-limit": "^6.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "game",
+    "iframe",
+    "unity",
+    "webgl",
+    "azgame",
+    "integration"
+  ],
+  "author": "Flamy Dash Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

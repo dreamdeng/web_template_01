@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flamy Dash: Master the Flames of Precision</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Flamy Dash - A nerve-testing one-button challenge where every split-second decision determines your survival in the burning depths. Test your reflexes in this unforgiving flame-powered adventure.">
+    <meta name="keywords" content="Flamy Dash, one-button game, reflex game, rhythm challenge, flame dash, online arcade, web game, precision gaming, endless runner, reaction test">
+    <meta name="author" content="Flamy Dash Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Flamy Dash: Master the Flames of Precision">
+    <meta property="og:description" content="A nerve-testing one-button challenge where every split-second decision determines your survival in the burning depths">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flamydash.com/">
+    <meta property="og:image" content="https://flamydash.com/flamy-dash.png">
+    <meta property="og:site_name" content="Flamy Dash">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flamy Dash: Master the Flames of Precision">
+    <meta name="twitter:description" content="A nerve-testing one-button challenge where every split-second decision determines your survival in the burning depths">
+    <meta name="twitter:image" content="https://flamydash.com/flamy-dash.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#ff6b35">
+
+    <!-- Game Integration Styles -->
+    <link rel="stylesheet" href="/css/game-integration.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .game-embed {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-frame {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .game-preview {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .play-overlay:hover {
+            background: rgba(0,0,0,0.6);
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
+        }
+
+        .play-button span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-disclaimer {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .content-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .content-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            color: #ff8c42;
+        }
+
+        .content-section h3 {
+            font-size: 1.6em;
+            margin: 25px 0 15px;
+            color: #ff6b35;
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h4 {
+            color: #ff6b35;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .video-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .video-embed {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-embed iframe {
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+        }
+
+        .faq-section {
+            margin: 60px 0;
+        }
+
+        .faq-item {
+            background: rgba(255,255,255,0.05);
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-links {
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: #ff8c42;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.2em;
+            }
+
+            .content-section {
+                padding: 25px;
+                margin: 40px 0;
+            }
+
+            .game-frame {
+                height: 400px;
+            }
+
+            .video-embed iframe {
+                height: 250px;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, transparent 0%, #ff6b3522 50%, transparent 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .game-name {
+            color: #ff8c42;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flamy Dash: Master the Flames of Precision</h1>
+            <p class="subtitle">Flamy Dash transforms the simple act of pressing a button into an intense psychological battlefield. Navigate through treacherous caverns as a blazing fireball, where each grappling hook swing demands perfect timing and unwavering focus.</p>
+            <a href="#play" class="cta-button">Play Flamy Dash Now</a>
+            <a href="https://poedb.tw/us/Flame_Dash" class="cta-button" target="_blank">Official Game Info</a>
+        </header>
+
+        <section class="game-embed" id="play">
+            <h2>Play <span class="game-name">Flamy Dash</span> Online</h2>
+
+            <!-- 游戏状态显示 -->
+            <div id="game-status" class="game-status">
+                Ready to play! Click below to start loading the game.
+            </div>
+
+            <!-- iframe容器 -->
+            <div class="game-iframe-container" id="game-container">
+                <!-- 动态创建的iframe将插入这里 -->
+
+                <!-- 加载覆盖层 -->
+                <div id="loading-overlay" class="loading-overlay">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Loading Flamy Dash...</div>
+                    <div class="loading-progress">
+                        <div id="loading-progress-bar"></div>
+                    </div>
+                    <div id="loading-percentage">0%</div>
+                </div>
+
+                <!-- 播放按钮覆盖层 -->
+                <div id="play-overlay" class="play-overlay">
+                    <button id="play-button" class="play-button">
+                        Load & Play Game
+                    </button>
+                    <p style="margin-top: 15px; color: rgba(255,255,255,0.7); font-size: 0.9em;">Click above or press Space to start</p>
+                </div>
+
+                <!-- 错误覆盖层 -->
+                <div id="error-overlay" class="error-overlay" style="display: none;">
+                    <div class="error-message">
+                        <h3>Loading Failed</h3>
+                        <p id="error-text">Unable to load the game. Please try again.</p>
+                        <button id="retry-button" class="retry-button">Retry</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏控制按钮 -->
+            <div class="game-controls">
+                <button class="control-button" onclick="window.gameLoader && window.gameLoader.sendMessageToGame({type: 'GAME_COMMAND', action: 'fullscreen'})" title="Toggle Fullscreen">
+                    ⛶ Fullscreen
+                </button>
+                <button class="control-button" onclick="window.gameLoader && window.gameLoader.sendMessageToGame({type: 'GAME_COMMAND', action: 'pause'})" title="Pause Game">
+                    ⏸ Pause
+                </button>
+                <button class="control-button" onclick="window.gameLoader && window.gameLoader.sendMessageToGame({type: 'GAME_COMMAND', action: 'restart'})" title="Restart Game">
+                    ↻ Restart
+                </button>
+            </div>
+
+            <p class="game-disclaimer">
+                Experience the ultimate precision challenge! Master the grappling hook mechanics to navigate through increasingly treacherous obstacles. Click above to load the game and test your reflexes.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>About <span class="game-name">Flamy Dash</span></h2>
+            <p>Flamy Dash exploits the deceptive simplicity of one-button gameplay to create an experience that strips away everything except pure reaction and rhythm. You control a blazing fireball rushing through dark caverns, where survival depends entirely on your ability to read the environment and respond with split-second precision. Each press of the button launches a grappling hook that becomes your lifeline through increasingly treacherous terrain.</p>
+            <p>What makes Flamy Dash particularly nerve-wracking is its unforgiving nature: touching any surface means instant failure. This design choice transforms every moment into a high-stakes decision, where hesitation kills just as surely as recklessness. The game doesn't just test your reflexes—it examines your ability to maintain composure under relentless pressure.</p>
+
+            <h3>Core Game Mechanics</h3>
+            <p>Flamy Dash operates on a simple yet demanding principle: press and hold to shoot your grappling hook to the ceiling, then release at the perfect moment to swing past obstacles. The timing window shrinks as you progress deeper into the caverns, demanding increasingly precise control over momentum and trajectory.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Precision Under Pressure</h4>
+                    <p>Every moment in Flamy Dash demands split-second decision-making. The game strips away complexity to focus entirely on the purity of timing, creating an experience where your reflexes are constantly tested against increasingly demanding obstacles.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Rhythm-Based Survival</h4>
+                    <p>Success in Flamy Dash requires finding the perfect rhythm between action and restraint. Press too early and you'll lack momentum; hold too long and you'll crash into walls. The game teaches you to feel the beat of survival.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Unforgiving Progression</h4>
+                    <p>Flamy Dash offers no mercy for mistakes—any contact with surfaces results in immediate failure. This design philosophy creates genuine tension, where each successful maneuver feels earned through skill rather than luck.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Mastering the Flame-Powered Challenge</h2>
+            <p>Playing Flamy Dash reveals the profound difference between simple mechanics and simple gameplay. While the controls require only a single button, mastering the game demands developing an intuitive understanding of physics, momentum, and spatial awareness that can only come through dedicated practice.</p>
+            <p>The psychological element of Flamy Dash cannot be understated. Each failed attempt carries the weight of knowing that success was within reach—that one slight adjustment in timing could have meant the difference between progress and starting over. This creates a compelling cycle of determination and improvement that defines the best arcade experiences.</p>
+
+            <h3>Progressive Difficulty Curves</h3>
+            <p>Flamy Dash doesn't rely on random generation to create challenge—instead, the game presents carefully designed obstacle patterns that test different aspects of your timing and spatial reasoning. As you venture deeper, the margin for error shrinks, demanding not just faster reflexes but more sophisticated decision-making.</p>
+
+            <h3>Strategic Approaches to Success</h3>
+            <p>Expert Flamy Dash players develop mental frameworks for reading upcoming challenges and preparing their responses in advance. The game rewards those who can balance aggressive progress with conservative safety, knowing when to take calculated risks and when steady progress serves better than ambitious leaps.</p>
+        </section>
+
+        <section class="video-section">
+            <h2>Watch Flamy Dash in Action</h2>
+            <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section class="content-section faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What makes Flamy Dash different from other one-button games?</div>
+                <div class="faq-answer">Flamy Dash combines the accessibility of one-button controls with genuinely demanding gameplay that tests both reflexes and strategic thinking. Unlike many casual games, Flamy Dash doesn't compromise on difficulty—it uses its simple controls to create pure, unfiltered challenge.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How do I improve my performance in Flamy Dash?</div>
+                <div class="faq-answer">Success in Flamy Dash comes from developing consistent timing and learning to read the environment ahead of your current position. Focus on smooth, controlled movements rather than panicked reactions. Many players find success by developing a rhythm that matches the game's pace.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Is Flamy Dash suitable for all skill levels?</div>
+                <div class="faq-answer">While Flamy Dash is accessible to beginners through its simple controls, the game is designed to challenge players of all skill levels. New players can enjoy the immediate feedback and clear progression, while experienced gamers will find the later sections genuinely demanding.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">Does Flamy Dash require any special equipment or setup?</div>
+                <div class="faq-answer">Flamy Dash runs directly in your web browser and requires only a mouse or touch screen. For the best experience, we recommend playing in fullscreen mode and ensuring a stable internet connection. The game is optimized for both desktop and mobile play.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What's the goal in Flamy Dash?</div>
+                <div class="faq-answer">The primary objective in Flamy Dash is to navigate as far as possible through the cavern system while avoiding all surfaces. The game tracks your best distance and encourages you to constantly push further, creating a personal challenge that grows with your skill level.</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 <span class="game-name">Flamy Dash</span>. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://poedb.tw/us/Flame_Dash" target="_blank">Official Game Info</a>
+                <a href="https://www.poewiki.net/wiki/Flame_Dash" target="_blank">Game Wiki</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+            </div>
+            <p>Flamy Dash is a browser-based game. Play responsibly and take breaks as needed.</p>
+        </footer>
+    </div>
+
+    <!-- Game Integration Scripts -->
+    <script src="/js/api-client.js"></script>
+    <script src="/js/game-loader.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SE24TQQ4NY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-SE24TQQ4NY');
+    </script>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const allAnswers = document.querySelectorAll('.faq-answer');
+
+            // Close all other FAQ answers
+            allAnswers.forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Toggle current answer
+            answer.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation for game iframe
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameFrame = document.querySelector('.game-frame');
+            if (gameFrame) {
+                gameFrame.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

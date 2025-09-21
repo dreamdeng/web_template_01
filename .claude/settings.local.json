@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:humanexpenditureprogram.org)",
+      "WebFetch(domain:www.poewiki.net)",
+      "Bash(wget:*)",
+      "WebSearch",
+      "WebFetch(domain:taggame.io)",
+      "WebFetch(domain:idev.games)",
+      "Bash(chmod:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
