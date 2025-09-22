@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flamy Dash 游戏嵌入测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff9a56, #ff6b6b);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            background: #000;
+            border-bottom: 3px solid #ff6b6b;
+        }
+
+        .game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 154, 86, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2em;
+            z-index: 10;
+            transition: all 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .flame-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: flicker 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.8; }
+            100% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+        }
+
+        .controls {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-top: 1px solid #dee2e6;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-fire {
+            background: linear-gradient(45deg, #ff6b6b, #ff9a56);
+            color: white;
+        }
+
+        .btn-fire:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-dash {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn-dash:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 107, 107, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 20;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.05);
+        }
+
+        .status-bar {
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: statusShine 3s infinite;
+        }
+
+        @keyframes statusShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .status-bar.error {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+        }
+
+        .status-bar.warning {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            color: #212529;
+        }
+
+        .status-bar.loading {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .info-panel h4 {
+            color: #ff6b6b;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .info-panel p {
+            color: #666;
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .game-container {
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .btn {
+                padding: 10px 18px;
+                font-size: 12px;
+            }
+            
+            .fullscreen-btn {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Flamy Dash</h1>
+            <p>跳跃冒险游戏 - iframe嵌入测试</p>
+        </div>
+
+        <div id="statusBar" class="status-bar loading">
+            🔄 正在测试游戏嵌入兼容性...
+        </div>
+
+        <div class="game-container">
+            <button class="fullscreen-btn" onclick="toggleFullscreen()" title="全屏模式">
+                🔥 全屏冲刺
+            </button>
+            
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="flame-icon">🔥</div>
+                <div class="loading-spinner"></div>
+                <div>正在点燃游戏引擎...</div>
+                <small style="margin-top: 10px; opacity: 0.8;">准备开始火焰冲刺</small>
+            </div>
+
+            <iframe 
+                id="gameFrame"
+                class="game-iframe"
+                src="https://crossy-road.io/flamy-dash.embed"
+                title="Flamy Dash Game"
+                allowfullscreen
+                allow="autoplay; fullscreen; gamepad; microphone; camera">
+            </iframe>
+        </div>
+
+        <div class="controls">
+            <div class="info-panel">
+                <h4>🔥 测试结果分析</h4>
+                <p><strong>URL类型：</strong> 专用嵌入链接 (.embed 后缀)</p>
+                <p><strong>预期结果：</strong> 这类专门的嵌入链接通常有很好的iframe兼容性</p>
+                <p><strong>优势：</strong> 专为嵌入优化，减少了X-Frame-Options限制</p>
+            </div>
+
+            <div class="control-buttons">
+                <button class="btn btn-fire" onclick="reloadGame()">
+                    🔥 重新点火
+                </button>
+                <button class="btn btn-dash" onclick="openInNewTab()">
+                    💨 新窗口冲刺
+                </button>
+                <button class="btn btn-primary" onclick="testGameplay()">
+                    🎮 测试游戏性能
+                </button>
+                <button class="btn btn-fire" onclick="checkCompatibility()">
+                    🔍 兼容性检查
+                </button>
+            </div>
+
+            <div class="info-panel">
+                <h4>🎯 iframe嵌入优势</h4>
+                <p>✅ <strong>.embed专用链接：</strong> 通常专为iframe嵌入而优化</p>
+                <p>✅ <strong>减少限制：</strong> 很少设置X-Frame-Options阻止嵌入</p>
+                <p>✅ <strong>性能优化：</strong> 去除了不必要的导航元素</p>
+                <p>✅ <strong>焦点管理：</strong> 更好的键盘和鼠标事件处理</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const gameFrame = document.getElementById('gameFrame');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const statusBar = document.getElementById('statusBar');
+        let isGameLoaded = false;
+        let loadStartTime = Date.now();
+
+        // 游戏加载处理
+        gameFrame.addEventListener('load', function() {
+            const loadTime = Date.now() - loadStartTime;
+            
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 500);
+                isGameLoaded = true;
+                updateStatus(`🔥 Flamy Dash 加载成功！耗时: ${loadTime}ms`, 'success');
+            }, 800);
+        });
+
+        gameFrame.addEventListener('error', function() {
+            updateStatus('❌ 游戏加载失败 - 请检查网络或重试', 'error');
+            loadingOverlay.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 4em; margin-bottom: 15px;">💥</div>
+                    <h3>引擎熄火了！</h3>
+                    <p style="margin: 15px 0;">游戏暂时无法点燃，请重新尝试</p>
+                    <button class="btn btn-fire" onclick="reloadGame()" style="margin-top: 15px;">
+                        🔥 重新点火
+                    </button>
+                </div>
+            `;
+        });
+
+        // 更新状态栏
+        function updateStatus(message, type = 'success') {
+            statusBar.textContent = message;
+            statusBar.className = 'status-bar' + (type !== 'success' ? ' ' + type : '');
+        }
+
+        // 重新加载游戏
+        function reloadGame() {
+            loadingOverlay.style.display = 'flex';
+            loadingOverlay.style.opacity = '1';
+            loadingOverlay.innerHTML = `
+                <div class="flame-icon">🔥</div>
+                <div class="loading-spinner"></div>
+                <div>重新点燃游戏引擎...</div>
+            `;
+            updateStatus('🔄 正在重新点火...', 'loading');
+            
+            loadStartTime = Date.now();
+            const currentSrc = gameFrame.src;
+            gameFrame.src = '';
+            setTimeout(() => {
+                gameFrame.src = currentSrc;
+            }, 200);
+        }
+
+        // 在新标签页打开
+        function openInNewTab() {
+            window.open('https://crossy-road.io/flamy-dash.embed', '_blank');
+            updateStatus('🚀 已在新窗口中启动火焰冲刺！');
+        }
+
+        // 测试游戏性能
+        function testGameplay() {
+            if (isGameLoaded) {
+                updateStatus('🎮 游戏运行正常，可以开始火焰冲刺！', 'success');
+                // 尝试给iframe发送焦点（有助于键盘控制）
+                gameFrame.focus();
+            } else {
+                updateStatus('⚠️ 游戏还在加载中，请稍候...', 'warning');
+            }
+        }
+
+        // 兼容性检查
+        function checkCompatibility() {
+            const checks = {
+                'iframe支持': gameFrame.contentWindow !== null,
+                'fullscreen API': document.fullscreenEnabled,
+                '触摸支持': 'ontouchstart' in window,
+                '游戏手柄API': 'getGamepads' in navigator
+            };
+            
+            let report = '🔍 兼容性检查结果:\n';
+            Object.entries(checks).forEach(([feature, supported]) => {
+                report += `${supported ? '✅' : '❌'} ${feature}\n`;
+            });
+            
+            updateStatus('兼容性检查完成 - 查看控制台详情');
+            console.log(report);
+            alert(report);
+        }
+
+        // 全屏切换
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                gameFrame.requestFullscreen().then(() => {
+                    updateStatus('🔥 全屏火焰冲刺模式！按ESC退出');
+                }).catch(() => {
+                    updateStatus('⚠️ 全屏模式启动失败', 'warning');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // 监听全屏变化
+        document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
+                updateStatus('🔥 全屏冲刺模式激活！');
+            } else {
+                updateStatus('🎮 已退出全屏模式');
+            }
+        });
+
+        // 页面可见性变化处理
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                updateStatus('⏸️ 游戏暂停（页面隐藏）', 'warning');
+            } else if (isGameLoaded) {
+                updateStatus('🔥 欢迎回到火焰冲刺！');
+            }
+        });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            } else if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                reloadGame();
+            }
+        });
+
+        // 初始化提示
+        setTimeout(() => {
+            if (!isGameLoaded) {
+                updateStatus('🔥 正在预热游戏引擎...', 'loading');
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

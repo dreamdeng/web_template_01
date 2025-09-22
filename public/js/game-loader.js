@@ -72,6 +72,18 @@ class FlamyDashIframeLoader {
             if (event.code === 'Space' && !this.isLoaded && !this.isLoading) {
                 event.preventDefault();
                 this.loadGameInIframe();
+            } else if (event.key === 'F11') {
+                event.preventDefault();
+                this.toggleFullscreen();
+            }
+        });
+
+        // 监听全屏变化
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                this.updateStatus('🔥 全屏冲刺模式激活！');
+            } else {
+                this.updateStatus('🎮 已退出全屏模式');
             }
         });
     }
@@ -162,7 +174,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 主要的游戏加载方法
+     * 主要的游戏加载方法 - 使用直接iframe方法
      */
     async loadGameInIframe() {
         if (this.isLoading || this.isLoaded) {
@@ -174,15 +186,7 @@ class FlamyDashIframeLoader {
             this.showLoading();
             this.recordEvent('load_started');
 
-            // 获取游戏配置
-            await this.fetchGameConfig();
-
-            // 验证配置
-            if (!this.validateGameConfig()) {
-                throw new Error('Invalid game configuration');
-            }
-
-            // 创建iframe
+            // 直接创建iframe，跳过API配置
             await this.createGameIframe();
 
             // 开始加载超时检测
@@ -221,12 +225,12 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 创建游戏iframe
+     * 创建游戏iframe - 直接使用embed URL
      */
     async createGameIframe() {
         return new Promise((resolve, reject) => {
             try {
-                this.updateStatus('Loading game...');
+                this.updateStatus('Loading Flamy Dash...');
 
                 // 移除现有iframe
                 if (this.iframe) {
@@ -236,28 +240,31 @@ class FlamyDashIframeLoader {
                 // 创建新iframe
                 this.iframe = document.createElement('iframe');
                 this.iframe.className = 'game-iframe';
-                this.iframe.src = this.buildGameUrl();
+                this.iframe.src = 'https://crossy-road.io/flamy-dash.embed';
+                this.iframe.title = 'Flamy Dash Game';
                 this.iframe.allowFullscreen = true;
-                this.iframe.setAttribute('loading', 'lazy');
+                this.iframe.setAttribute('allow', 'autoplay; fullscreen; gamepad; microphone; camera');
+                this.iframe.setAttribute('loading', 'eager');
 
-                // 设置sandbox属性
-                if (this.gameConfig.gameinfo.iframe_sandbox) {
-                    this.iframe.sandbox = this.gameConfig.gameinfo.iframe_sandbox;
-                }
+                // 设置样式
+                this.iframe.style.width = '100%';
+                this.iframe.style.height = '100%';
+                this.iframe.style.border = 'none';
+                this.iframe.style.display = 'block';
 
                 // 设置加载事件
                 this.iframe.onload = () => {
-                    console.log('🎮 Iframe loaded successfully');
+                    console.log('🔥 Flamy Dash iframe loaded successfully');
                     setTimeout(() => {
                         if (!this.isLoaded) {
                             this.onGameLoaded();
                         }
-                    }, 2000); // 给游戏2秒时间发送loaded消息
+                    }, 800); // 给游戏一点时间完全加载
                     resolve();
                 };
 
                 this.iframe.onerror = () => {
-                    reject(new Error('Failed to load game iframe'));
+                    reject(new Error('Failed to load Flamy Dash iframe'));
                 };
 
                 // 插入iframe
@@ -270,24 +277,11 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 构建游戏URL
+     * 构建游戏URL - 现在直接返回embed URL
      */
     buildGameUrl() {
-        const { gameinfo } = this.gameConfig;
-        let gameUrl = gameinfo.iframe_url;
-
-        // 添加参数
-        const params = new URLSearchParams({
-            width: gameinfo.width,
-            height: gameinfo.height,
-            fullscreen: gameinfo.enable_fullscreen,
-            sound: gameinfo.enable_sound,
-            parent: window.location.origin,
-            timestamp: Date.now()
-        });
-
-        const separator = gameUrl.includes('?') ? '&' : '?';
-        return `${gameUrl}${separator}${params.toString()}`;
+        // 直接使用已知的工作URL
+        return 'https://crossy-road.io/flamy-dash.embed';
     }
 
     /**
@@ -299,19 +293,21 @@ class FlamyDashIframeLoader {
         this.isLoaded = true;
         this.isLoading = false;
         this.hideLoading();
-        this.updateStatus('Game loaded! Enjoy playing Flamy Dash.');
+        this.updateStatus('🔥 Flamy Dash loaded successfully! Game ready to play.');
         this.recordEvent('load_completed');
 
-        console.log('🎮 Game loaded successfully');
+        console.log('🔥 Flamy Dash loaded successfully');
 
-        // 发送初始化消息给游戏
-        this.sendMessageToGame({
-            type: 'PARENT_READY',
-            config: {
-                origin: window.location.origin,
-                fullscreen_available: this.isFullscreenSupported()
-            }
-        });
+        // 聚焦iframe以确保游戏可以接收键盘输入
+        if (this.iframe) {
+            this.iframe.focus();
+        }
+
+        // 显示全屏按钮
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        if (fullscreenBtn) {
+            fullscreenBtn.style.display = 'block';
+        }
     }
 
     /**
@@ -452,13 +448,33 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 记录事件
+     * 记录事件 - 简化版本，不依赖API
      */
     async recordEvent(eventType, data = {}) {
         try {
-            await window.apiClient.recordGameEvent(eventType, this.gameId, data);
+            console.log(`🎮 Event: ${eventType}`, data);
+            // 可选：如果API客户端可用，则记录事件
+            if (window.apiClient && typeof window.apiClient.recordGameEvent === 'function') {
+                await window.apiClient.recordGameEvent(eventType, this.gameId, data);
+            }
         } catch (error) {
             console.error('Failed to record event:', error);
+        }
+    }
+
+    /**
+     * 全屏切换功能
+     */
+    toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            const container = this.container;
+            container.requestFullscreen().then(() => {
+                this.updateStatus('🔥 全屏火焰冲刺模式！按ESC退出');
+            }).catch(() => {
+                this.updateStatus('⚠️ 全屏模式启动失败');
+            });
+        } else {
+            document.exitFullscreen();
         }
     }
 

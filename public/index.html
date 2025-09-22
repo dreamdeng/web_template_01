@@ -335,36 +335,44 @@
                 Ready to play! Click below to start loading the game.
             </div>
 
-            <!-- iframe容器 -->
+            <!-- iframe游戏容器 -->
             <div class="game-iframe-container" id="game-container">
                 <!-- 动态创建的iframe将插入这里 -->
 
                 <!-- 加载覆盖层 -->
                 <div id="loading-overlay" class="loading-overlay">
+                    <div class="flame-icon">🔥</div>
                     <div class="loading-spinner"></div>
-                    <div class="loading-text">Loading Flamy Dash...</div>
+                    <div class="loading-text">正在点燃游戏引擎...</div>
                     <div class="loading-progress">
                         <div id="loading-progress-bar"></div>
                     </div>
                     <div id="loading-percentage">0%</div>
+                    <small style="margin-top: 10px; opacity: 0.8;">准备开始火焰冲刺</small>
                 </div>
 
                 <!-- 播放按钮覆盖层 -->
                 <div id="play-overlay" class="play-overlay">
                     <button id="play-button" class="play-button">
-                        Load & Play Game
+                        <span>🔥 点燃 Flamy Dash</span>
                     </button>
-                    <p style="margin-top: 15px; color: rgba(255,255,255,0.7); font-size: 0.9em;">Click above or press Space to start</p>
+                    <p style="margin-top: 15px; color: rgba(255,255,255,0.7); font-size: 0.9em;">Click above or press Space to start loading</p>
                 </div>
 
                 <!-- 错误覆盖层 -->
                 <div id="error-overlay" class="error-overlay" style="display: none;">
                     <div class="error-message">
-                        <h3>Loading Failed</h3>
-                        <p id="error-text">Unable to load the game. Please try again.</p>
-                        <button id="retry-button" class="retry-button">Retry</button>
+                        <div style="font-size: 4em; margin-bottom: 15px;">💥</div>
+                        <h3>引擎熄火了！</h3>
+                        <p id="error-text">游戏暂时无法点燃，请重新尝试</p>
+                        <button id="retry-button" class="retry-button">🔥 重新点火</button>
                     </div>
                 </div>
+
+                <!-- 全屏按钮 -->
+                <button class="fullscreen-btn" onclick="window.gameLoader && window.gameLoader.toggleFullscreen()" title="全屏模式" style="display: none;">
+                    🔥 全屏冲刺
+                </button>
             </div>
 
             <!-- 游戏控制按钮 -->
