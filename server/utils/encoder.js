@@ -24,13 +24,25 @@ class ParameterEncoder {
      * @returns {Object} 解码后的参数对象
      */
     static decode(encodedParams) {
-        try {
-            if (!encodedParams) {
-                throw new Error('No parameters provided');
-            }
+        if (!encodedParams) {
+            throw new Error('No parameters provided');
+        }
 
-            const jsonString = Buffer.from(encodedParams, 'base64').toString('utf8');
-            return JSON.parse(jsonString);
+        try {
+            const decodedString = Buffer.from(encodedParams, 'base64').toString('utf8');
+
+            // 尝试作为 JSON 解析
+            try {
+                return JSON.parse(decodedString);
+            } catch (jsonError) {
+                // 如果不是 JSON，尝试作为 URL 参数解析 (兼容 AzGame 格式)
+                const params = {};
+                const urlParams = new URLSearchParams(decodedString);
+                for (const [key, value] of urlParams) {
+                    params[key] = value;
+                }
+                return params;
+            }
         } catch (error) {
             console.error('Parameter decoding failed:', error);
             throw new Error('Failed to decode parameters');

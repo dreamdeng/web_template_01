@@ -80,10 +80,10 @@ class APIClient {
      */
     createGameParams(gameId = 'flamy-dash') {
         return {
-            d: 'flamydash.com', // 固定域名
+            d: 'flamydash.com', // 来源域名 - 改为你的域名
             gid: gameId,
-            hn: 'flamydash.com',
-            pn: window.location.pathname,
+            hn: 'game.azgame.io', // 保持原始的游戏主机名
+            pn: `/${gameId}/`,
             ts: Math.floor(Date.now() / 1000),
             ie: 'yes'
         };

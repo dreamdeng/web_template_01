@@ -63,6 +63,7 @@ class GameController {
                 adsinfo: {
                     enable: gameConfig.ads_config.enable,
                     ads_debug: gameConfig.ads_config.ads_debug,
+                    ads_code: gameConfig.ads_config.ads_code,
                     time_show_inter: gameConfig.ads_config.time_show_inter,
                     time_show_reward: gameConfig.ads_config.time_show_reward,
                     sdk_type: gameConfig.ads_config.sdk_type
@@ -75,25 +76,13 @@ class GameController {
                     image: game.image,
                     rtype: gameConfig.default_settings.rtype,
                     redirect_url: game.redirect_url,
-                    rating: game.rating,
-                    category: game.category,
-                    tags: game.tags
+                    signed: GameController.generateSignedToken(decodedParams)
                 },
                 gameinfo: {
-                    iframe_url: game.iframe_url,
-                    width: game.width,
-                    height: game.height,
-                    version: game.version,
-                    enable_fullscreen: game.enable_fullscreen,
-                    enable_sound: game.enable_sound,
-                    controls: game.controls,
-                    iframe_sandbox: gameConfig.default_settings.iframe_sandbox
-                },
-                request_info: {
-                    domain: decodedParams.d,
-                    hostname: decodedParams.hn,
-                    timestamp: decodedParams.ts,
-                    api_version: decodedParams.v || '1.0'
+                    moregames_url: game.moregames_url,
+                    enable_moregame: game.enable_moregame,
+                    promotion: game.promotion,
+                    redirect_url: game.redirect_url
                 }
             };
 
@@ -183,6 +172,24 @@ class GameController {
                 code: 'EMBED_ERROR'
             });
         }
+    }
+
+    /**
+     * 生成签名令牌 (模拟)
+     */
+    static generateSignedToken(params) {
+        // 生成类似 AzGame 的 signed token
+        const tokenData = {
+            signed: "base64_encoded_signature_placeholder",
+            ap: "yes",
+            hn: params.hn || "game.azgame.io",
+            domain: params.d || "flamydash.com",
+            s: "yes",
+            stype: 2
+        };
+
+        // 将 token 数据编码为 base64
+        return Buffer.from(JSON.stringify(tokenData)).toString('base64');
     }
 
     /**
