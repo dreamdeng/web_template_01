@@ -9,7 +9,7 @@ const GAME_CONFIG = {
       "description": "",
       "image": "https://api.azgame.io/data/image/game/800x47082.png",
       "version": "25091502",
-      "redirect_url": "https://flamydash.com/flamy-dash",
+      "redirect_url": "https://crossy-road.io/flamy-dash.embed",
       "moregames_url": "https://flamydash.com/?gid=G211",
       "enable_moregame": "yes",
       "unlock_timer": 15,

@@ -55,7 +55,7 @@ class FlamyDashIframeLoader {
         // 播放按钮点击事件
         if (this.elements.playButton) {
             this.elements.playButton.addEventListener('click', () => {
-                this.loadGameInIframe();
+                this.redirectToGame();
             });
         }
 
@@ -71,7 +71,7 @@ class FlamyDashIframeLoader {
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Space' && !this.isLoaded && !this.isLoading) {
                 event.preventDefault();
-                this.loadGameInIframe();
+                this.redirectToGame();
             }
         });
     }
@@ -162,7 +162,32 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 主要的游戏加载方法
+     * 直接跳转到游戏页面
+     */
+    async redirectToGame() {
+        try {
+            this.recordEvent('redirect_clicked');
+
+            // 获取游戏配置以获取重定向URL
+            await this.fetchGameConfig();
+
+            if (this.gameConfig && this.gameConfig.regisinfo && this.gameConfig.regisinfo.redirect_url) {
+                const redirectUrl = this.gameConfig.regisinfo.redirect_url;
+                console.log('🎮 Redirecting to:', redirectUrl);
+                window.open(redirectUrl, '_blank');
+            } else {
+                // 备用跳转URL
+                window.open('https://crossy-road.io/flamy-dash.embed', '_blank');
+            }
+        } catch (error) {
+            console.error('Failed to redirect:', error);
+            // 即使获取配置失败，也尝试跳转到备用URL
+            window.open('https://crossy-road.io/flamy-dash.embed', '_blank');
+        }
+    }
+
+    /**
+     * 主要的游戏加载方法 (保留用于重试功能)
      */
     async loadGameInIframe() {
         if (this.isLoading || this.isLoaded) {
