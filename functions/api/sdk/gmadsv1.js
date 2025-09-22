@@ -7,7 +7,7 @@ const GAME_CONFIG = {
       "id": "flamy-dash",
       "name": "Flamy Dash",
       "description": "",
-      "image": "https://api.azgame.io/data/image/game/800x47082.png",
+      "image": "https://crossy-road.io/data/image/game/flamy-dash.png",
       "version": "25091502",
       "redirect_url": "https://crossy-road.io/flamy-dash.embed",
       "moregames_url": "https://flamydash.com/?gid=G211",

@@ -7,7 +7,7 @@ const GAME_CONFIG = {
       "id": "flamy-dash",
       "name": "Flamy Dash",
       "description": "Master the flames of precision in this challenging one-button arcade game",
-      "image": "https://api.azgame.io/data/image/game/800x47082.png",
+      "image": "https://crossy-road.io/data/image/game/flamy-dash.png",
       "version": "25091502",
       "redirect_url": "https://flamydash.com/flamy-dash",
       "moregames_url": "https://flamydash.com/?gid=G211",
