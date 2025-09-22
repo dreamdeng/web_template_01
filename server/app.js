@@ -9,7 +9,7 @@ const path = require('path');
 const gameApiRoutes = require('./routes/game-api');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000; // 固定端口，移除环境变量
 
 // 安全中间件
 app.use(helmet({
@@ -29,17 +29,16 @@ app.use(helmet({
     crossOriginEmbedderPolicy: false
 }));
 
-// CORS配置
+// CORS配置 - 简化为固定域名
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'http://localhost:8000',
         'https://flamydash.com',
-        'https://*.flamydash.com'
+        'https://www.flamydash.com'
     ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'X-Requested-With']
 }));
 
 // 速率限制
@@ -108,7 +107,7 @@ app.use((error, req, res, next) => {
     res.status(500).json({
         error: 'Internal server error',
         code: 'SERVER_ERROR',
-        message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+        message: error.message
     });
 });
 

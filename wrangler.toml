@@ -1,0 +1,26 @@
+# Cloudflare Pages 配置文件
+
+name = "flamydash-iframe-integration"
+compatibility_date = "2023-12-01"
+
+[env.production]
+compatibility_date = "2023-12-01"
+
+[env.preview]
+compatibility_date = "2023-12-01"
+
+# Pages 构建配置
+[build]
+command = "npm run build"
+cwd = "."
+watch_dir = "public"
+
+[build.upload]
+format = "modules"
+dir = "./out"
+main = "./out/index.html"
+
+# 环境变量（如果需要的话）
+[vars]
+NODE_ENV = "production"
+DOMAIN = "flamydash.com"

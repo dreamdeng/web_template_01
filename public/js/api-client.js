@@ -80,16 +80,12 @@ class APIClient {
      */
     createGameParams(gameId = 'flamy-dash') {
         return {
-            d: window.location.hostname || 'flamydash.com',
+            d: 'flamydash.com', // 固定域名
             gid: gameId,
-            hn: window.location.hostname,
+            hn: 'flamydash.com',
             pn: window.location.pathname,
             ts: Math.floor(Date.now() / 1000),
-            ie: 'yes',
-            ref: document.referrer || '',
-            ua: navigator.userAgent,
-            lang: navigator.language || 'en-US',
-            v: '1.0'
+            ie: 'yes'
         };
     }
 
