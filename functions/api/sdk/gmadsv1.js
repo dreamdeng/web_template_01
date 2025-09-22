@@ -190,10 +190,29 @@ export async function onRequestGet(context) {
         signed: generateSignedToken(decodedParams)
       },
       gameinfo: {
+        // 游戏资源 URLs - 仿照 AzGame 结构
+        game_url: `https://flamydash.com/games/flamy-dash/${game.version}/`,
+        loader_url: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.loader.js`,
+        framework_url: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.framework.js.unityweb`,
+        wasm_url: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.wasm.unityweb`,
+        data_url: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.data.unityweb`,
+
+        // 原有的链接信息
         moregames_url: game.moregames_url,
         enable_moregame: game.enable_moregame,
         promotion: game.promotion,
-        redirect_url: game.redirect_url
+        redirect_url: game.redirect_url,
+
+        // Unity WebGL 配置
+        unity_config: {
+          dataUrl: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.data.unityweb`,
+          frameworkUrl: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.framework.js.unityweb`,
+          codeUrl: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.wasm.unityweb`,
+          loaderUrl: `https://flamydash.com/games/flamy-dash/${game.version}/Build/flamy-dash-v${game.version}.loader.js`,
+          companyName: "Flamy Dash Team",
+          productName: "Flamy Dash",
+          productVersion: game.version
+        }
       }
     };
 
