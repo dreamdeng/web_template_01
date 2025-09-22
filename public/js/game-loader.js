@@ -1,6 +1,6 @@
 /**
- * Flamy Dash iframe游戏加载器
- * 负责动态加载游戏、状态管理和用户交互
+ * Flamy Dash iframe game loader
+ * Handles dynamic game loading, state management and user interaction
  */
 class FlamyDashIframeLoader {
     constructor(containerId) {
@@ -13,7 +13,7 @@ class FlamyDashIframeLoader {
         this.isLoaded = false;
         this.loadingProgress = 0;
 
-        // DOM元素引用
+        // DOM element references
         this.elements = {};
         this.setupElements();
         this.bindEvents();
@@ -23,7 +23,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 初始化DOM元素引用
+     * Initialize DOM element references
      */
     setupElements() {
         this.elements = {
@@ -39,7 +39,7 @@ class FlamyDashIframeLoader {
             errorText: document.getElementById('error-text')
         };
 
-        // 验证必需元素是否存在
+        // Verify required elements exist
         const requiredElements = ['playButton', 'loadingOverlay', 'playOverlay'];
         for (const elementKey of requiredElements) {
             if (!this.elements[elementKey]) {
@@ -49,17 +49,17 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 绑定事件监听器
+     * Bind event listeners
      */
     bindEvents() {
-        // 播放按钮点击事件
+        // Play button click event
         if (this.elements.playButton) {
             this.elements.playButton.addEventListener('click', () => {
                 this.loadGameInIframe();
             });
         }
 
-        // 重试按钮点击事件
+        // Retry button click event
         if (this.elements.retryButton) {
             this.elements.retryButton.addEventListener('click', () => {
                 this.hideError();
@@ -67,7 +67,7 @@ class FlamyDashIframeLoader {
             });
         }
 
-        // 键盘事件
+        // Keyboard events
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Space' && !this.isLoaded && !this.isLoading) {
                 event.preventDefault();
@@ -78,22 +78,22 @@ class FlamyDashIframeLoader {
             }
         });
 
-        // 监听全屏变化
+        // Listen for fullscreen changes
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement) {
-                this.updateStatus('🔥 全屏冲刺模式激活！');
+                this.updateStatus('🔥 Fullscreen dash mode activated!');
             } else {
-                this.updateStatus('🎮 已退出全屏模式');
+                this.updateStatus('🎮 Exited fullscreen mode');
             }
         });
     }
 
     /**
-     * 设置postMessage监听器
+     * Setup postMessage listener
      */
     setupMessageListener() {
         window.addEventListener('message', (event) => {
-            // 安全检查：验证消息来源
+            // Security check: verify message source
             if (!this.iframe || event.source !== this.iframe.contentWindow) {
                 return;
             }
@@ -108,7 +108,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 处理来自游戏iframe的消息
+     * Handle messages from game iframe
      */
     handleGameMessage(message) {
         const { type, event: eventName, data } = message;
@@ -129,7 +129,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 处理游戏事件
+     * Handle game events
      */
     handleGameEvent(eventName, data) {
         console.log(`🎮 Game event: ${eventName}`, data);
@@ -157,7 +157,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 处理游戏状态更新
+     * Handle game status updates
      */
     handleGameStatus(data) {
         if (data.loading_progress !== undefined) {
@@ -166,7 +166,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 处理游戏错误
+     * Handle game errors
      */
     handleGameError(data) {
         console.error('Game error received:', data);
@@ -174,7 +174,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 主要的游戏加载方法 - 使用直接iframe方法
+     * Main game loading method - using direct iframe approach
      */
     async loadGameInIframe() {
         if (this.isLoading || this.isLoaded) {
@@ -186,10 +186,10 @@ class FlamyDashIframeLoader {
             this.showLoading();
             this.recordEvent('load_started');
 
-            // 直接创建iframe，跳过API配置
+            // Create iframe directly, skip API configuration
             await this.createGameIframe();
 
-            // 开始加载超时检测
+            // Start loading timeout detection
             this.startLoadingTimeout();
 
         } catch (error) {
@@ -200,7 +200,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 获取游戏配置
+     * Get game configuration
      */
     async fetchGameConfig() {
         try {
@@ -213,7 +213,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 验证游戏配置
+     * Validate game configuration
      */
     validateGameConfig() {
         if (!this.gameConfig || !this.gameConfig.gameinfo) {
@@ -225,19 +225,19 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 创建游戏iframe - 直接使用embed URL
+     * Create game iframe - directly using embed URL
      */
     async createGameIframe() {
         return new Promise((resolve, reject) => {
             try {
                 this.updateStatus('Loading Flamy Dash...');
 
-                // 移除现有iframe
+                // Remove existing iframe
                 if (this.iframe) {
                     this.iframe.remove();
                 }
 
-                // 创建新iframe
+                // Create new iframe
                 this.iframe = document.createElement('iframe');
                 this.iframe.className = 'game-iframe';
                 this.iframe.src = 'https://crossy-road.io/flamy-dash.embed';
@@ -246,20 +246,20 @@ class FlamyDashIframeLoader {
                 this.iframe.setAttribute('allow', 'autoplay; fullscreen; gamepad; microphone; camera');
                 this.iframe.setAttribute('loading', 'eager');
 
-                // 设置样式
+                // Set styles
                 this.iframe.style.width = '100%';
                 this.iframe.style.height = '100%';
                 this.iframe.style.border = 'none';
                 this.iframe.style.display = 'block';
 
-                // 设置加载事件
+                // Set loading events
                 this.iframe.onload = () => {
                     console.log('🔥 Flamy Dash iframe loaded successfully');
                     setTimeout(() => {
                         if (!this.isLoaded) {
                             this.onGameLoaded();
                         }
-                    }, 800); // 给游戏一点时间完全加载
+                    }, 800); // Give game time to fully load
                     resolve();
                 };
 
@@ -267,7 +267,7 @@ class FlamyDashIframeLoader {
                     reject(new Error('Failed to load Flamy Dash iframe'));
                 };
 
-                // 插入iframe
+                // Insert iframe
                 this.container.appendChild(this.iframe);
 
             } catch (error) {
@@ -277,15 +277,15 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 构建游戏URL - 现在直接返回embed URL
+     * Build game URL - now directly returns embed URL
      */
     buildGameUrl() {
-        // 直接使用已知的工作URL
+        // Use known working URL directly
         return 'https://crossy-road.io/flamy-dash.embed';
     }
 
     /**
-     * 游戏加载完成处理
+     * Game loading completion handler
      */
     onGameLoaded() {
         if (this.isLoaded) return;
@@ -298,12 +298,12 @@ class FlamyDashIframeLoader {
 
         console.log('🔥 Flamy Dash loaded successfully');
 
-        // 聚焦iframe以确保游戏可以接收键盘输入
+        // Focus iframe to ensure game can receive keyboard input
         if (this.iframe) {
             this.iframe.focus();
         }
 
-        // 显示全屏按钮
+        // Show fullscreen button
         const fullscreenBtn = document.querySelector('.fullscreen-btn');
         if (fullscreenBtn) {
             fullscreenBtn.style.display = 'block';
@@ -311,7 +311,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 向游戏iframe发送消息
+     * Send message to game iframe
      */
     sendMessageToGame(message) {
         if (this.iframe && this.iframe.contentWindow) {
@@ -320,7 +320,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 检查是否支持全屏
+     * Check if fullscreen is supported
      */
     isFullscreenSupported() {
         return !!(
@@ -332,7 +332,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 开始加载超时检测
+     * Start loading timeout detection
      */
     startLoadingTimeout() {
         setTimeout(() => {
@@ -341,11 +341,11 @@ class FlamyDashIframeLoader {
                 this.showError('Game loading is taking longer than expected. Please check your connection and try again.');
                 this.recordEvent('load_timeout');
             }
-        }, 30000); // 30秒超时
+        }, 30000); // 30 second timeout
     }
 
     /**
-     * 更新加载进度
+     * Update loading progress
      */
     updateLoadingProgress(progress) {
         this.loadingProgress = Math.max(0, Math.min(100, progress));
@@ -360,7 +360,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 显示加载状态
+     * Show loading state
      */
     showLoading() {
         this.hidePlayOverlay();
@@ -370,12 +370,12 @@ class FlamyDashIframeLoader {
             this.elements.loadingOverlay.style.display = 'flex';
         }
 
-        // 模拟加载进度
+        // Simulate loading progress
         this.simulateLoadingProgress();
     }
 
     /**
-     * 隐藏加载状态
+     * Hide loading state
      */
     hideLoading() {
         if (this.elements.loadingOverlay) {
@@ -384,7 +384,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 隐藏播放覆盖层
+     * Hide play overlay
      */
     hidePlayOverlay() {
         if (this.elements.playOverlay) {
@@ -393,7 +393,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 显示错误
+     * Show error
      */
     showError(message) {
         this.isLoading = false;
@@ -409,7 +409,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 隐藏错误
+     * Hide error
      */
     hideError() {
         if (this.elements.errorOverlay) {
@@ -418,7 +418,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 更新状态文本
+     * Update status text
      */
     updateStatus(message) {
         if (this.elements.gameStatus) {
@@ -428,7 +428,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 模拟加载进度
+     * Simulate loading progress
      */
     simulateLoadingProgress() {
         let progress = 0;
@@ -440,7 +440,7 @@ class FlamyDashIframeLoader {
 
             progress += Math.random() * 15;
             if (progress > 90) {
-                progress = 90; // 不要到达100%直到真正加载完成
+                progress = 90; // Don't reach 100% until actually loaded
             }
 
             this.updateLoadingProgress(progress);
@@ -448,12 +448,12 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 记录事件 - 简化版本，不依赖API
+     * Record event - simplified version, doesn't depend on API
      */
     async recordEvent(eventType, data = {}) {
         try {
             console.log(`🎮 Event: ${eventType}`, data);
-            // 可选：如果API客户端可用，则记录事件
+            // Optional: record event if API client available
             if (window.apiClient && typeof window.apiClient.recordGameEvent === 'function') {
                 await window.apiClient.recordGameEvent(eventType, this.gameId, data);
             }
@@ -463,15 +463,15 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 全屏切换功能
+     * Fullscreen toggle functionality
      */
     toggleFullscreen() {
         if (!document.fullscreenElement) {
             const container = this.container;
             container.requestFullscreen().then(() => {
-                this.updateStatus('🔥 全屏火焰冲刺模式！按ESC退出');
+                this.updateStatus('🔥 Fullscreen flame dash mode! Press ESC to exit');
             }).catch(() => {
-                this.updateStatus('⚠️ 全屏模式启动失败');
+                this.updateStatus('⚠️ Fullscreen mode failed to start');
             });
         } else {
             document.exitFullscreen();
@@ -479,7 +479,7 @@ class FlamyDashIframeLoader {
     }
 
     /**
-     * 销毁加载器
+     * Destroy loader
      */
     destroy() {
         if (this.iframe) {
@@ -495,7 +495,7 @@ class FlamyDashIframeLoader {
     }
 }
 
-// 当DOM加载完成时初始化游戏加载器
+// Initialize game loader when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.gameLoader = new FlamyDashIframeLoader('game-container');
 });

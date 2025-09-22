@@ -323,55 +323,55 @@
         <header>
             <h1>Flamy Dash: Master the Flames of Precision</h1>
             <p class="subtitle">Flamy Dash transforms the simple act of pressing a button into an intense psychological battlefield. Navigate through treacherous caverns as a blazing fireball, where each grappling hook swing demands perfect timing and unwavering focus.</p>
-            <a href="#play" class="cta-button">Play Flamy Dash Now</a>
+            <a href="#play" class="cta-button" onclick="document.getElementById('play-button')?.click(); return false;">Play Flamy Dash Now</a>
             <a href="https://poedb.tw/us/Flame_Dash" class="cta-button" target="_blank">Official Game Info</a>
         </header>
 
         <section class="game-embed" id="play">
             <h2>Play <span class="game-name">Flamy Dash</span> Online</h2>
 
-            <!-- 游戏状态显示 -->
+            <!-- Game Status Display -->
             <div id="game-status" class="game-status">
                 Ready to play! Click below to start loading the game.
             </div>
 
-            <!-- iframe游戏容器 -->
+            <!-- Game iframe Container -->
             <div class="game-iframe-container" id="game-container">
-                <!-- 动态创建的iframe将插入这里 -->
+                <!-- Dynamically created iframe will be inserted here -->
 
-                <!-- 加载覆盖层 -->
+                <!-- Loading Overlay -->
                 <div id="loading-overlay" class="loading-overlay">
                     <div class="flame-icon">🔥</div>
                     <div class="loading-spinner"></div>
-                    <div class="loading-text">正在点燃游戏引擎...</div>
+                    <div class="loading-text">Igniting game engine...</div>
                     <div class="loading-progress">
                         <div id="loading-progress-bar"></div>
                     </div>
                     <div id="loading-percentage">0%</div>
-                    <small style="margin-top: 10px; opacity: 0.8;">准备开始火焰冲刺</small>
+                    <small style="margin-top: 10px; opacity: 0.8;">Preparing for flame dash</small>
                 </div>
 
-                <!-- 播放按钮覆盖层 -->
+                <!-- Play Button Overlay -->
                 <div id="play-overlay" class="play-overlay">
                     <button id="play-button" class="play-button">
-                        <span>🔥 点燃 Flamy Dash</span>
+                        <span>🔥 Start Flamy Dash</span>
                     </button>
                     <p style="margin-top: 15px; color: rgba(255,255,255,0.7); font-size: 0.9em;">Click above or press Space to start loading</p>
                 </div>
 
-                <!-- 错误覆盖层 -->
+                <!-- Error Overlay -->
                 <div id="error-overlay" class="error-overlay" style="display: none;">
                     <div class="error-message">
                         <div style="font-size: 4em; margin-bottom: 15px;">💥</div>
-                        <h3>引擎熄火了！</h3>
-                        <p id="error-text">游戏暂时无法点燃，请重新尝试</p>
-                        <button id="retry-button" class="retry-button">🔥 重新点火</button>
+                        <h3>Engine Failed!</h3>
+                        <p id="error-text">Game temporarily unavailable, please try again</p>
+                        <button id="retry-button" class="retry-button">🔥 Restart Engine</button>
                     </div>
                 </div>
 
-                <!-- 全屏按钮 -->
-                <button class="fullscreen-btn" onclick="window.gameLoader && window.gameLoader.toggleFullscreen()" title="全屏模式" style="display: none;">
-                    🔥 全屏冲刺
+                <!-- Fullscreen Button -->
+                <button class="fullscreen-btn" onclick="window.gameLoader && window.gameLoader.toggleFullscreen()" title="Fullscreen Mode" style="display: none;">
+                    🔥 Fullscreen Dash
                 </button>
             </div>
 
