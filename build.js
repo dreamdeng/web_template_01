@@ -47,7 +47,13 @@ async function build() {
         console.log('📋 Creating _headers file...');
         await createHeadersFile();
 
-        // 7. 验证构建结果
+        // 7. 复制 Cloudflare Functions
+        console.log('⚡ Copying Cloudflare Functions...');
+        if (await fs.pathExists('functions')) {
+            await fs.copy('functions', path.join(OUTPUT_DIR, 'functions'));
+        }
+
+        // 8. 验证构建结果
         console.log('\n✅ Build completed successfully!');
         await listOutputFiles();
 
