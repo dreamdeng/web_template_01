@@ -308,6 +308,9 @@ class FlamyDashIframeLoader {
         if (fullscreenBtn) {
             fullscreenBtn.style.display = 'block';
         }
+
+        // Hide background video when game loads
+        this.hideBackgroundVideo();
     }
 
     /**
@@ -399,6 +402,9 @@ class FlamyDashIframeLoader {
         this.isLoading = false;
         this.hideLoading();
 
+        // Show background video when there's an error
+        this.showBackgroundVideo();
+
         if (this.elements.errorOverlay) {
             this.elements.errorOverlay.style.display = 'flex';
         }
@@ -459,6 +465,43 @@ class FlamyDashIframeLoader {
             }
         } catch (error) {
             console.error('Failed to record event:', error);
+        }
+    }
+
+    /**
+     * Hide background video when game loads
+     */
+    hideBackgroundVideo() {
+        const video = document.getElementById('game-background-video');
+        const overlay = document.querySelector('.video-overlay');
+
+        if (video) {
+            video.classList.add('hide-video');
+            // Pause video after transition to save resources
+            setTimeout(() => {
+                video.pause();
+            }, 600);
+        }
+
+        if (overlay) {
+            overlay.classList.add('hide-overlay');
+        }
+    }
+
+    /**
+     * Show background video (when game is not loaded)
+     */
+    showBackgroundVideo() {
+        const video = document.getElementById('game-background-video');
+        const overlay = document.querySelector('.video-overlay');
+
+        if (video) {
+            video.classList.remove('hide-video');
+            video.play().catch(e => console.log('Video autoplay prevented:', e));
+        }
+
+        if (overlay) {
+            overlay.classList.remove('hide-overlay');
         }
     }
 

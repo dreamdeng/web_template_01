@@ -683,6 +683,64 @@
         .pulse-glow {
             animation: pulseGlow 2s ease-in-out infinite;
         }
+
+        /* Game Background Video Styles */
+        .game-background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            border-radius: 16px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+        }
+
+        .game-background-video.hide-video {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.4) 0%,
+                rgba(26, 26, 46, 0.6) 50%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            z-index: 2;
+            border-radius: 16px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .video-overlay.hide-overlay {
+            opacity: 0;
+        }
+
+        /* Ensure iframe is above video when loaded */
+        .game-iframe {
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Update z-index for overlays to be above video */
+        .loading-overlay,
+        .play-overlay,
+        .error-overlay {
+            z-index: 15;
+        }
+
+        .fullscreen-btn {
+            z-index: 20;
+        }
     </style>
 </head>
 <body>
@@ -704,6 +762,23 @@
 
             <!-- Game iframe Container -->
             <div class="game-iframe-container" id="game-container">
+                <!-- Background Video -->
+                <video
+                    id="game-background-video"
+                    class="game-background-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    poster=""
+                >
+                    <source src="https://cdn2.1games.io/file/game/flamy-dash/flamy-dash.mp4" type="video/mp4">
+                    <!-- Fallback for browsers that don't support video -->
+                </video>
+
+                <!-- Video Overlay for darkening effect -->
+                <div class="video-overlay"></div>
+
                 <!-- Dynamically created iframe will be inserted here -->
 
                 <!-- Loading Overlay -->
